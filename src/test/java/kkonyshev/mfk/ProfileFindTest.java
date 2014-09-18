@@ -31,6 +31,12 @@ public class ProfileFindTest {
 		LoggingUtils.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
 	}
 	
+	
+	@Test
+	public void testCheckTrainings() {
+		Profile leoProfile = profileService.findByName("Konyshev Leo");
+		Assert.assertEquals("Ожидается две тренировки", Integer.valueOf(2), Integer.valueOf(leoProfile.getTrainingList().size()));
+	}
 	@Test
 	public void testSize() {
 		Assert.assertEquals("Ожидается один профиль", Integer.valueOf(1), profileService.size());
