@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:application-context-test.xml"})
 public class ProfileFindTest {
 
+
+	
 	@Autowired
 	private ProfileService profileService;
 	
@@ -23,7 +25,10 @@ public class ProfileFindTest {
 	
 	@Test
 	public void testFind() {
-		profileService.findByName("Konyshev Leo");
+		Profile leoProfile = profileService.findByName("Konyshev Leo");
+		LoggingUtils.TESTS.debug("Profile info: " + leoProfile);
+		LoggingUtils.TESTS.debug("Total  year(s) from birth day: " + leoProfile.getTotalYear());
+		LoggingUtils.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
 	}
 	
 	@Test

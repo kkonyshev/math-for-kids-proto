@@ -1,9 +1,10 @@
-package kkonyshev.mfk.service;
+package kkonyshev.mfk.service.impl;
 
 import java.util.Collections;
 import java.util.List;
 
 import kkonyshev.mfk.Profile;
+import kkonyshev.mfk.service.ProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

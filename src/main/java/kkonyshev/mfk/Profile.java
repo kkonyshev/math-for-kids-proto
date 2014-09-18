@@ -1,5 +1,7 @@
 package kkonyshev.mfk;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,12 +52,37 @@ public class Profile {
 		this.trainingList = trainingList;
 	}
 	
+	public void addTraining(AbstractTraining training) {
+		trainingList.add(training);
+	}
+	
+	public Integer getTotalYear() {
+		return getCalendarFieldDiff(Calendar.YEAR);
+	}
+	
+	public Integer getTotalMonth() {
+		return getCalendarFieldDiff(Calendar.MONTH);
+	}
+
+	private Integer getCalendarFieldDiff(int field) {
+		Calendar now   = Calendar.getInstance();
+		Calendar birth = Calendar.getInstance();
+		birth.setTime(birthDate);
+		return now.get(field) - birth.get(field);
+	}
+	
 	/*
 	 * 
 	 */
+	private final static String DATE_FORMAT_PATTERN="yyyy-MM-dd";
+	
+	private String parceDate(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
+		return simpleDateFormat.format(date);
+	}
 	
 	@Override
 	public String toString() {
-		return "[" + name + "][" + birthDate + "]" + trainingList;
+		return "[" + name + "][" + parceDate(birthDate) + "]" + trainingList;
 	}
 }

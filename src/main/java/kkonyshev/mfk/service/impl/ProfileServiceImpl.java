@@ -1,8 +1,10 @@
-package kkonyshev.mfk.service;
+package kkonyshev.mfk.service.impl;
 
 import java.util.List;
 
 import kkonyshev.mfk.Profile;
+import kkonyshev.mfk.service.ProfileRepository;
+import kkonyshev.mfk.service.ProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,6 @@ public class ProfileServiceImpl implements ProfileService {
 	 * 
 	 */
 	
-	@Override
 	public ProfileRepository getProfileRepository() {
 		return profileRepository;
 	}
