@@ -12,8 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:application-context-test.xml"})
 public class ProfileFindTest {
-
-
 	
 	@Autowired
 	private ProfileService profileService;
@@ -30,7 +28,6 @@ public class ProfileFindTest {
 		LoggingUtils.TESTS.debug("Total  year(s) from birth day: " + leoProfile.getTotalYear());
 		LoggingUtils.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
 	}
-	
 	
 	@Test
 	public void testCheckTrainings() {
