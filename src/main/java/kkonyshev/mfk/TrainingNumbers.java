@@ -7,5 +7,4 @@ package kkonyshev.mfk;
  *
  */
 public class TrainingNumbers extends AbstractTraining {
-
 }

@@ -38,4 +38,72 @@ public class ProfileFindTest {
 	public void testSize() {
 		Assert.assertEquals("Ожидается один профиль", Integer.valueOf(1), profileService.size());
 	}
+	
+	@Test
+	public void testProgress() {
+		Profile leoProfile = profileService.findByName("Konyshev Leo");
+		
+		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+			checkProgressIsEmpty(trainting);
+			System.out.println(trainting.getName() + " progress: " + trainting.getProgressPercentage() + "%");
+		}
+		
+		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+			if (trainting instanceof TrainingAmounts) {
+				trainting.updateProgressItem(Integer.valueOf(0), ActionType.View);
+				trainting.updateProgressItem(Integer.valueOf(1), ActionType.View);
+				trainting.updateProgressItem(Integer.valueOf(3), ActionType.View);
+				trainting.updateProgressItem(Integer.valueOf(4), ActionType.View);
+				trainting.updateProgressItem(Integer.valueOf(0), ActionType.View);
+				LoggingUtils.TESTS.debug(trainting.printProgressStat());
+			}
+		}
+		
+		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+			if (trainting instanceof TrainingAmounts) {
+				Assert.assertEquals(2, trainting.getProgressFor(0).size());
+				Assert.assertEquals(1, trainting.getProgressFor(1).size());
+				Assert.assertTrue(trainting.getProgressFor(2).isEmpty());
+				Assert.assertEquals(1, trainting.getProgressFor(3).size());
+				Assert.assertEquals(1, trainting.getProgressFor(4).size());
+				Assert.assertTrue(trainting.getProgressFor(5).isEmpty());
+			} else {
+				checkProgressIsEmpty(trainting);
+			}
+			System.out.println(trainting.getName() + " progress: " + trainting.getProgressPercentage() + "%");
+		}
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testProgressIllegalAgrumentNegative() {
+		Profile leoProfile = profileService.findByName("Konyshev Leo");		
+		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+			trainting.updateProgressItem(Integer.valueOf(-1), ActionType.View);
+		}
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testProgressIllegalAgrumentMoreThenMax() {
+		Profile leoProfile = profileService.findByName("Konyshev Leo");		
+		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+			trainting.updateProgressItem(Integer.valueOf(101), ActionType.View);
+		}
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testProgressIllegalAgrumentNull() {
+		Profile leoProfile = profileService.findByName("Konyshev Leo");		
+		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+			trainting.updateProgressItem(null, ActionType.View);
+		}
+	}
+
+	private void checkProgressIsEmpty(AbstractTraining trainting) {
+		Assert.assertTrue(trainting.getProgressFor(0).isEmpty());
+		Assert.assertTrue(trainting.getProgressFor(1).isEmpty());
+		Assert.assertTrue(trainting.getProgressFor(2).isEmpty());
+		Assert.assertTrue(trainting.getProgressFor(3).isEmpty());
+		Assert.assertTrue(trainting.getProgressFor(4).isEmpty());
+		Assert.assertTrue(trainting.getProgressFor(5).isEmpty());
+	}
 }

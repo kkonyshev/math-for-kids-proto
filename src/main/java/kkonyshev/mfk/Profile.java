@@ -36,7 +36,7 @@ public class Profile {
 		return birthDate;
 	}
 
-	public Set<AbstractTraining> getTrainingList() {
+	public Set<? extends AbstractTraining> getTrainingList() {
 		return trainingList;
 	}
 
@@ -52,7 +52,7 @@ public class Profile {
 		this.trainingList = trainingList;
 	}
 	
-	public void addTraining(AbstractTraining training) {
+	public <T extends AbstractTraining> void addTraining(T training) {
 		trainingList.add(training);
 	}
 	
