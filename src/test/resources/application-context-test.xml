@@ -7,21 +7,21 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-3.2.xsd">	
 	
-	<context:component-scan base-package="kkonyshev.math"/>
+	<context:component-scan base-package="mfkd"/><!-- отключаем поиск бинов, иначе падают тесты -->
 	
 	<bean id="dateFormat" class="java.text.SimpleDateFormat">
 		<constructor-arg value="yyyy-MM-dd" />
 	</bean>
 	
-	<bean id="amountLeoMock" class="kkonyshev.mfk.TrainingAmounts" scope="prototype">
+	<bean id="amountLeoMock" class="mfk.TrainingAmountsImpl" scope="prototype">
 		<property name="name" value="Изучения количеств"/>
 	</bean>
 	
-	<bean id="numbersLeoMock" class="kkonyshev.mfk.TrainingNumbers" scope="prototype">
+	<bean id="numbersLeoMock" class="mfk.TrainingNumbersImpl" scope="prototype">
 		<property name="name" value="Изучения чисел"/>
 	</bean>
 	
-	<bean id="leoProfile" class="kkonyshev.mfk.Profile" scope="prototype">
+	<bean id="leoProfile" class="mfk.ProfileImpl" scope="prototype">
 		<property name="name" value="Konyshev Leo"/>
 		<property name="birthDate">
 		<bean factory-bean="dateFormat" factory-method="parse">
@@ -31,14 +31,14 @@
 		<property name="trainingList">
 			<list>
 				<ref bean="amountLeoMock"/>
-				<ref bean="numbersLeoMock"/>
+				<!-- <ref bean="numbersLeoMock"/> -->
 			</list>
 		</property>
 	</bean>
 
-	<bean id="mockProfileRepository" class="kkonyshev.mfk.service.impl.ProfileRepositoryMock" scope="prototype"/>
+	<bean id="mockProfileRepository" class="mfk.service.impl.ProfileRepositoryMock" scope="prototype"/>
 	
-	<bean id="mockProfileService" class="kkonyshev.mfk.service.impl.ProfileServiceImpl" scope="prototype">
+	<bean id="mockProfileService" class="mfk.service.impl.ProfileServiceImpl" scope="prototype">
 		<property name="profileRepository">
 			<ref bean="mockProfileRepository"/>
 		</property>

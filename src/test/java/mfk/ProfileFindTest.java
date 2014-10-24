@@ -1,11 +1,12 @@
-package kkonyshev.mfk;
+package mfk;
 
-import kkonyshev.mfk.service.ProfileService;
+import mfk.service.ProfileService;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ProfileFindTest {
 	
 	@Autowired
+	@Qualifier(value="mockProfileService")
 	private ProfileService profileService;
 	
 	@Test(expected=RuntimeException.class)
@@ -23,17 +25,23 @@ public class ProfileFindTest {
 	
 	@Test
 	public void testFind() {
-		Profile leoProfile = profileService.findByName("Konyshev Leo");
-		LoggingUtils.TESTS.debug("Profile info: " + leoProfile);
-		LoggingUtils.TESTS.debug("Total  year(s) from birth day: " + leoProfile.getTotalYear());
-		LoggingUtils.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
+		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);
+		Utils.TESTS.debug("Profile info: " + leoProfile);
+		Utils.TESTS.debug("Total  year(s) from birth day: " + leoProfile.getTotalYear());
+		Utils.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
+		profileService.listAll();
 	}
 	
 	@Test
 	public void testCheckTrainings() {
-		Profile leoProfile = profileService.findByName("Konyshev Leo");
+		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);
+		Assert.assertEquals("Ожидается одна тренировка", Integer.valueOf(1), Integer.valueOf(leoProfile.getTrainingList().size()));
+		
+		leoProfile.addTraining(new TrainingNumbersImpl());
 		Assert.assertEquals("Ожидается две тренировки", Integer.valueOf(2), Integer.valueOf(leoProfile.getTrainingList().size()));
 	}
+	
+	
 	@Test
 	public void testSize() {
 		Assert.assertEquals("Ожидается один профиль", Integer.valueOf(1), profileService.size());
@@ -41,7 +49,7 @@ public class ProfileFindTest {
 	
 	@Test
 	public void testProgress() {
-		Profile leoProfile = profileService.findByName("Konyshev Leo");
+		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);
 		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
 			checkProgressIsEmpty(trainting);
@@ -49,18 +57,18 @@ public class ProfileFindTest {
 		}
 		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
-			if (trainting instanceof TrainingAmounts) {
+			if (trainting instanceof TrainingAmountsImpl) {
 				trainting.updateProgressItem(Integer.valueOf(0), ActionType.View);
 				trainting.updateProgressItem(Integer.valueOf(1), ActionType.View);
 				trainting.updateProgressItem(Integer.valueOf(3), ActionType.View);
 				trainting.updateProgressItem(Integer.valueOf(4), ActionType.View);
 				trainting.updateProgressItem(Integer.valueOf(0), ActionType.View);
-				LoggingUtils.TESTS.debug(trainting.printProgressStat());
+				Utils.TESTS.debug(trainting.printProgressStat());
 			}
 		}
 		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
-			if (trainting instanceof TrainingAmounts) {
+			if (trainting instanceof TrainingAmountsImpl) {
 				Assert.assertEquals(2, trainting.getProgressFor(0).size());
 				Assert.assertEquals(1, trainting.getProgressFor(1).size());
 				Assert.assertTrue(trainting.getProgressFor(2).isEmpty());
@@ -76,7 +84,7 @@ public class ProfileFindTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testProgressIllegalAgrumentNegative() {
-		Profile leoProfile = profileService.findByName("Konyshev Leo");		
+		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
 			trainting.updateProgressItem(Integer.valueOf(-1), ActionType.View);
 		}
@@ -84,7 +92,7 @@ public class ProfileFindTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testProgressIllegalAgrumentMoreThenMax() {
-		Profile leoProfile = profileService.findByName("Konyshev Leo");		
+		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
 			trainting.updateProgressItem(Integer.valueOf(101), ActionType.View);
 		}
@@ -92,7 +100,7 @@ public class ProfileFindTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testProgressIllegalAgrumentNull() {
-		Profile leoProfile = profileService.findByName("Konyshev Leo");		
+		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
 			trainting.updateProgressItem(null, ActionType.View);
 		}

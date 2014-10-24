@@ -1,4 +1,4 @@
-package kkonyshev.mfk;
+package mfk;
 
 import java.util.Date;
 

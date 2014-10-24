@@ -1,10 +1,10 @@
-package kkonyshev.mfk.service.impl;
+package mfk.service.impl;
 
 import java.util.List;
 
-import kkonyshev.mfk.Profile;
-import kkonyshev.mfk.service.ProfileRepository;
-import kkonyshev.mfk.service.ProfileService;
+import mfk.ProfileImpl;
+import mfk.service.ProfileRepository;
+import mfk.service.ProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ public class ProfileServiceImpl implements ProfileService {
 	private ProfileRepository profileRepository;
 	
 	@Override
-	public Profile findByName(String profileName) {
+	public ProfileImpl findByName(String profileName) {
 		return profileRepository.find(profileName);
 	}
 	
 	@Override
-	public List<Profile> listAll() {
+	public List<ProfileImpl> listAll() {
 		return profileRepository.listAll();
 	}
 	
@@ -31,22 +31,18 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
-	public void save(Profile profile) {
+	public void save(ProfileImpl profile) {
 		profileRepository.save(profile);
 	}
 	
 	@Override
-	public void remove(Profile profile) {
+	public void remove(ProfileImpl profile) {
 		profileRepository.remove(profile);
 	}
 
 	/*
 	 * 
 	 */
-	
-	public ProfileRepository getProfileRepository() {
-		return profileRepository;
-	}
 
 	public void setProfileRepository(ProfileRepository profileRepository) {
 		this.profileRepository = profileRepository;

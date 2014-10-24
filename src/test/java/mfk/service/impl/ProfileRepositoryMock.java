@@ -1,24 +1,22 @@
-package kkonyshev.mfk.service.impl;
+package mfk.service.impl;
 
 import java.util.Collections;
 import java.util.List;
 
-import kkonyshev.mfk.Profile;
-import kkonyshev.mfk.service.ProfileRepository;
+import mfk.ProfileImpl;
+import mfk.service.ProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProfileRepositoryMock implements ProfileRepository {
 
 	@Autowired
-	@Qualifier("leoProfile")
-	private Profile leoProfile;
+	private ProfileImpl leoProfile;
 	
 	@Override
-	public Profile find(String profileName) {
+	public ProfileImpl find(String profileName) {
 		if (leoProfile!=null && profileName.equalsIgnoreCase(leoProfile.getName())) {
 			return leoProfile;
 		} else {
@@ -27,8 +25,8 @@ public class ProfileRepositoryMock implements ProfileRepository {
 	}
 
 	@Override
-	public List<Profile> listAll() {
-		return leoProfile!=null ? Collections.singletonList(leoProfile) : Collections.<Profile>emptyList();
+	public List<ProfileImpl> listAll() {
+		return leoProfile!=null ? Collections.singletonList(leoProfile) : Collections.<ProfileImpl>emptyList();
 	}
 
 	@Override
@@ -37,13 +35,13 @@ public class ProfileRepositoryMock implements ProfileRepository {
 	}
 
 	@Override
-	public void save(Profile profile) {
+	public void save(ProfileImpl profile) {
 		find(profile.getName());
 		leoProfile = profile;
 	}
 
 	@Override
-	public void remove(Profile profile) {
+	public void remove(ProfileImpl profile) {
 		find(profile.getName());
 		leoProfile = null;
 	}

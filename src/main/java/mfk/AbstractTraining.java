@@ -1,11 +1,11 @@
-package kkonyshev.mfk;
+package mfk;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Тренинг
@@ -18,12 +18,12 @@ public abstract class AbstractTraining {
 	public static final Integer MIN_NUMBER = 0;
 	public static final Integer MAX_NUMBER = 100;
 	
-	public static final Integer SIGGESTTED_STEP = 5;
+	public static final Integer SUGGESTTED_STEP = 5;
 	public static final Integer VIEW_COUNT 		= 5;
 	
 	private String name;
 	public Object picture;
-	private Map<Integer, Set<Action>> progressMap = new HashMap<Integer, Set<Action>>();
+	private Map<Integer, Set<Action>> progressMap = new TreeMap<Integer, Set<Action>>();
 	
 	public String getName() {
 		return name;
@@ -32,7 +32,18 @@ public abstract class AbstractTraining {
 		this.name = name;
 	}
 	
-	private void checkRange(Integer number) {
+	public Set<Integer> getNextBatch() {
+		Set<Integer> batch = new HashSet<Integer>();
+		for (int i=MIN_NUMBER; i<=MAX_NUMBER && batch.size()!=SUGGESTTED_STEP; i++){
+			Set<Action> actionSet = progressMap.get(i);
+			if (actionSet==null || actionSet.size()<VIEW_COUNT) {
+				batch.add(i);
+			}
+		}
+		return batch;
+	}
+	
+	protected void checkRange(Integer number) {
 		if (number==null || number < MIN_NUMBER || number > MAX_NUMBER) {
 			throw new IllegalArgumentException(name);
 		}

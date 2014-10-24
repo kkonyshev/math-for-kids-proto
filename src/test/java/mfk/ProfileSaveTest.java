@@ -1,10 +1,11 @@
-package kkonyshev.mfk;
+package mfk;
 
-import kkonyshev.mfk.service.ProfileService;
+import mfk.service.ProfileService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -13,11 +14,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ProfileSaveTest {
 
 	@Autowired
+	@Qualifier(value="mockProfileService")
 	private ProfileService profileService;
 	
 	@Test
 	public void testSave() {
-		Profile profile = profileService.findByName("Konyshev Leo");
+		ProfileImpl profile = profileService.findByName(Utils.LEO_PROFILE_NAME);
 		String newName = "Leo Konyshev";
 		profile.setName(newName);
 		profileService.save(profile);

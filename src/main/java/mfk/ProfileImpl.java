@@ -1,4 +1,4 @@
-package kkonyshev.mfk;
+package mfk;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,7 +12,7 @@ import java.util.Set;
  * @author kkonyshev
  *
  */
-public class Profile {
+public class ProfileImpl {
 	/**
 	 * Имя профиля
 	 */
@@ -30,10 +30,6 @@ public class Profile {
 
 	public String getName() {
 		return name;
-	}
-
-	public Date getBirthDate() {
-		return birthDate;
 	}
 
 	public Set<? extends AbstractTraining> getTrainingList() {
@@ -67,7 +63,7 @@ public class Profile {
 	private Integer getCalendarFieldDiff(int field) {
 		Calendar now   = Calendar.getInstance();
 		Calendar birth = Calendar.getInstance();
-		birth.setTime(birthDate);
+		birth.setTime(this.birthDate);
 		return now.get(field) - birth.get(field);
 	}
 	
@@ -83,6 +79,6 @@ public class Profile {
 	
 	@Override
 	public String toString() {
-		return "[" + name + "][" + parceDate(birthDate) + "]" + trainingList;
+		return "[" + name + "][" + parceDate(this.birthDate) + "]" + trainingList;
 	}
 }

@@ -27,6 +27,7 @@
 	</build>
 
 	<dependencies>
+		<!-- logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -37,11 +38,15 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4jVersion}</version>
 		</dependency>
+		
+		<!-- DI -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
+		
+		<!-- tests -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -57,7 +62,6 @@
 
 	</dependencies>
 
-
 	<repositories>
 		<repository>
 			<id>spring-milestone</id>
@@ -66,4 +70,41 @@
 		</repository>
 	</repositories>
 
+	<profiles>
+		<profile>
+			<id>jacoco</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.6.0.201210061924</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>report</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<name>Math for kids</name>
+	<url>https://github.com/kkonyshev/math-for-kids-proto/wiki</url>
+	<scm>
+		<url>https://github.com/kkonyshev/math-for-kids-proto.git</url>
+		<developerConnection>kkonyshev</developerConnection>
+	</scm>
 </project>

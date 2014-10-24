@@ -1,5 +1,4 @@
-package kkonyshev.mfk;
-
+package mfk;
 
 /**
  * Изучения количеств
@@ -7,5 +6,5 @@ package kkonyshev.mfk;
  * @author kkonyshev
  *
  */
-public class TrainingAmounts extends AbstractTraining {
+public class TrainingNumbersImpl extends AbstractTraining {
 }
