@@ -1,7 +1,9 @@
 package mfk;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -24,6 +26,7 @@ public abstract class AbstractTraining {
 	private String name;
 	public Object picture;
 	private Map<Integer, Set<Action>> progressMap = new TreeMap<Integer, Set<Action>>();
+	private Map<Integer, Integer> excludeMap = new TreeMap<Integer, Integer>();
 	
 	public String getName() {
 		return name;
@@ -32,15 +35,17 @@ public abstract class AbstractTraining {
 		this.name = name;
 	}
 	
-	public Set<Integer> getNextBatch() {
+	public List<Integer> getNextBatch() {
 		Set<Integer> batch = new HashSet<Integer>();
 		for (int i=MIN_NUMBER; i<=MAX_NUMBER && batch.size()!=SUGGESTTED_STEP; i++){
 			Set<Action> actionSet = progressMap.get(i);
-			if (actionSet==null || actionSet.size()<VIEW_COUNT) {
+			if (actionSet==null || actionSet.size()< Math.max(VIEW_COUNT, getExcludeNumber(i))) {
 				batch.add(i);
 			}
 		}
-		return batch;
+		ArrayList<Integer> list = new ArrayList<Integer>(batch);
+		Collections.shuffle(list);
+		return list;
 	}
 	
 	protected void checkRange(Integer number) {
@@ -77,6 +82,34 @@ public abstract class AbstractTraining {
 				sb.append(a.getActionDate()).append("-").append(a.getActionType().name()).append(";");
 			}
 			sb.append("]");
+		}
+		return sb.toString();
+	}
+	
+	public Integer getExcludeNumber(Integer number) {
+		Integer excludeCount = excludeMap.get(number);
+		return excludeCount==null ? 0 : excludeCount;
+	}
+	
+	public void setExcludeNumber(Integer number, Integer count) {
+		excludeMap.put(number, count);
+	}
+	
+	public void clearExcludeNumber(Integer number) {
+		excludeMap.remove(number);
+	}
+	
+	@SuppressWarnings("unused")
+	public String printProgressStatGraph() {
+		StringBuilder sb = new StringBuilder();
+		for (Entry<Integer, Set<Action>> entry: progressMap.entrySet()) {
+			Set<Action> actionSet = entry.getValue();
+			sb.append(entry.getKey()).append(":");
+			for (Action a: actionSet) {
+				sb.append("-");
+			}
+			sb.append("(").append(actionSet.size()).append(")");
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
