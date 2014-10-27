@@ -39,7 +39,7 @@ public class ProfileBatchTest {
 				t.start();
 				t.join();
 				if (c==6) {
-					trainting.setExcludeNumber(4, 10);
+					trainting.setMaxActionCount(4, 10);
 				}
 			}
 			System.out.println(trainting.printProgressStatGraph());

@@ -10,23 +10,57 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * Тренинг
+ * Тренировка.<br/>
+ * Абстракция описывающяя набор действия на последовательностью чисел.
  * 
  * @author kkonyshev
  *
  */
 public abstract class AbstractTraining {
 	
+	/**
+	 * Минимальное число для изучения
+	 */
 	public static final Integer MIN_NUMBER = 0;
+	/**
+	 * Максимальное число для изучения
+	 */
 	public static final Integer MAX_NUMBER = 100;
 	
+	/**
+	 * Предлагаемое по-умолчанию количство цифр в итерации тренировки
+	 */
 	public static final Integer SUGGESTTED_STEP = 5;
-	public static final Integer VIEW_COUNT 		= 5;
+	
+	/**
+	 * Количество действий с числом, после которого считается, что число изучено 
+	 */
+	public static final Integer VIEW_COUNT = 5;
+	
+	/**
+	 * Имя тренировки
+	 */
 	
 	private String name;
+	
+	/**
+	 * Иконка
+	 * TODO
+	 */
 	public Object picture;
+	
+	/**
+	 * Карта описывающая процесс прохоздения тренировки.<br/>
+	 * Содержит инфомрацию об уже изученных или изучаемых цифрах.<br/>
+	 * Цифра -> набор действий (см. {@link mfk.Action})
+	 */
 	private Map<Integer, Set<Action>> progressMap = new TreeMap<Integer, Set<Action>>();
-	private Map<Integer, Integer> excludeMap = new TreeMap<Integer, Integer>();
+	
+	/**
+	 * Карта исключительных правил.<br/>
+	 * Хранит количества необходимых действий (см. {@link mfk.Action}) над цифрами после которых считается, что цифра изучена. 
+	 */
+	private Map<Integer, Integer> maxActionCountMap = new TreeMap<Integer, Integer>();
 	
 	public String getName() {
 		return name;
@@ -35,11 +69,19 @@ public abstract class AbstractTraining {
 		this.name = name;
 	}
 	
+	/**
+	 * Метод получения последовательности чисел для изучения.<br/>
+	 * Алгоритм выбора:
+	 * <ul>1. </ul>
+	 * <ul>2. </ul>
+	 * <br/>
+	 * 
+	 * @return
+	 */
 	public List<Integer> getNextBatch() {
 		Set<Integer> batch = new HashSet<Integer>();
 		for (int i=MIN_NUMBER; i<=MAX_NUMBER && batch.size()!=SUGGESTTED_STEP; i++){
-			Set<Action> actionSet = progressMap.get(i);
-			if (actionSet==null || actionSet.size()< Math.max(VIEW_COUNT, getExcludeNumber(i))) {
+			if (useInBatch(i)) {
 				batch.add(i);
 			}
 		}
@@ -48,12 +90,41 @@ public abstract class AbstractTraining {
 		return list;
 	}
 	
+	/**
+	 * Проверка: необходимо ли добавлять число в список для последовательности обучения.
+	 * 
+	 * @param number
+	 * @return
+	 * TODO выбирать не максимальное из дефолтного и заданного, а использовать деволтное если не задано исключение!
+	 */
+	private boolean useInBatch(Integer number) {
+		Set<Action> actionSet = progressMap.get(number);
+		Integer actionCout = getMaxActionCount(number);
+		if (actionSet==null || actionSet.size()<actionCout) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	/**
+	 * Метод проверки, явлвется ли число корректным для обновлении статистики по нему.<br/>
+	 * Число должно находится в диапазоне {@link mfk.AbstractTraining.MIN_NUMBER} - {@link mfk.AbstractTraining.MAX_NUMBER}
+	 * 
+	 * @param number -- 
+	 * @throws IllegalArgumentException -- 
+	 */
 	protected void checkRange(Integer number) {
 		if (number==null || number < MIN_NUMBER || number > MAX_NUMBER) {
 			throw new IllegalArgumentException(name);
 		}
 	}
 	
+	/**
+	 * Метод обновления статистики прохождения тренировки.<br/>
+	 * 
+	 * @param number -- число по которому обновляется статистика
+	 * @param actionType -- действие (см. {@link mfk.ActionType})
+	 */
 	public void updateProgressItem(Integer number, ActionType actionType) {
 		checkRange(number);
 		Set<Action> item = progressMap.get(number);
@@ -64,6 +135,12 @@ public abstract class AbstractTraining {
 		progressMap.get(number).add(a);
 	}
 	
+	/**
+	 * Метод получения статистики прохождения тринировки по заданному числу.
+	 * 
+	 * @param number
+	 * @return
+	 */
 	public Set<Action> getProgressFor(Integer number) {
 		checkRange(number);
 		Set<Action> item = progressMap.get(number);
@@ -73,31 +150,32 @@ public abstract class AbstractTraining {
 		return item;
 	}
 	
-	public String printProgressStat() {
-		StringBuilder sb = new StringBuilder();
-		for (Entry<Integer, Set<Action>> entry: progressMap.entrySet()) {
-			sb.append("\n");
-			sb.append(entry.getKey()).append(": [");
-			for (Action a: entry.getValue()) {
-				sb.append(a.getActionDate()).append("-").append(a.getActionType().name()).append(";");
-			}
-			sb.append("]");
-		}
-		return sb.toString();
+	/**
+	 * Получение количество операция над числом, после которого считается, что число изучено.
+	 * 
+	 * @param number
+	 * @return
+	 */
+	public Integer getMaxActionCount(Integer number) {
+		Integer excludeCount = maxActionCountMap.get(number);
+		return excludeCount==null ? VIEW_COUNT : excludeCount;
 	}
 	
-	public Integer getExcludeNumber(Integer number) {
-		Integer excludeCount = excludeMap.get(number);
-		return excludeCount==null ? 0 : excludeCount;
-	}
-	
-	public void setExcludeNumber(Integer number, Integer count) {
-		excludeMap.put(number, count);
+	/**
+	 * Переопределение дефолтного количества действий на числом, после которого считается, что число изучено.
+	 * 
+	 * @param number
+	 * @param count
+	 */
+	public void setMaxActionCount(Integer number, Integer count) {
+		maxActionCountMap.put(number, count);
 	}
 	
 	public void clearExcludeNumber(Integer number) {
-		excludeMap.remove(number);
+		maxActionCountMap.remove(number);
 	}
+	
+	/*Следующие три метода (статистика) вынести в отдельный класс*/
 	
 	@SuppressWarnings("unused")
 	public String printProgressStatGraph() {
@@ -127,6 +205,20 @@ public abstract class AbstractTraining {
 		}
 		return total.intValue();
 	}
+	
+	public String printProgressStat() {
+		StringBuilder sb = new StringBuilder();
+		for (Entry<Integer, Set<Action>> entry: progressMap.entrySet()) {
+			sb.append("\n");
+			sb.append(entry.getKey()).append(": [");
+			for (Action a: entry.getValue()) {
+				sb.append(a.getActionDate()).append("-").append(a.getActionType().name()).append(";");
+			}
+			sb.append("]");
+		}
+		return sb.toString();
+	}
+
 	
 	/**/
 	@Override
