@@ -53,7 +53,7 @@ public class ProfileFindTest {
 		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
 			checkProgressIsEmpty(trainting);
-			System.out.println(trainting.getName() + " progress: " + trainting.getProgressPercentage() + "%");
+			System.out.println(trainting.getName() + " progress: " + TrainingStatisticHelper.getProgressPercentage(trainting) + "%");
 		}
 		
 		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
@@ -63,7 +63,7 @@ public class ProfileFindTest {
 				trainting.updateProgressItem(Integer.valueOf(3), ActionType.View);
 				trainting.updateProgressItem(Integer.valueOf(4), ActionType.View);
 				trainting.updateProgressItem(Integer.valueOf(0), ActionType.View);
-				Utils.TESTS.debug(trainting.printProgressStat());
+				Utils.TESTS.debug(TrainingStatisticHelper.printProgressStat(trainting));
 			}
 		}
 		
@@ -78,7 +78,7 @@ public class ProfileFindTest {
 			} else {
 				checkProgressIsEmpty(trainting);
 			}
-			System.out.println(trainting.getName() + " progress: " + trainting.getProgressPercentage() + "%");
+			System.out.println(trainting.getName() + " progress: " + TrainingStatisticHelper.getProgressPercentage(trainting) + "%");
 		}
 	}
 	

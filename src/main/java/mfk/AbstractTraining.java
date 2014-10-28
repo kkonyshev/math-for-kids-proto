@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -58,7 +57,7 @@ public abstract class AbstractTraining {
 	
 	/**
 	 * Карта исключительных правил.<br/>
-	 * Хранит количества необходимых действий (см. {@link mfk.Action}) над цифрами после которых считается, что цифра изучена. 
+	 * Хранит количество необходимых действий (см. {@link mfk.Action}) над цифрами после которых считается, что цифра изучена. 
 	 */
 	private Map<Integer, Integer> maxActionCountMap = new TreeMap<Integer, Integer>();
 	
@@ -71,12 +70,12 @@ public abstract class AbstractTraining {
 	
 	/**
 	 * Метод получения последовательности чисел для изучения.<br/>
-	 * Алгоритм выбора:
-	 * <ul>1. </ul>
-	 * <ul>2. </ul>
-	 * <br/>
+	 * Отбирается первых {@link mfk.AbstractTraining.SUGGESTTED_STEP} из диапазона 
+	 * {@link mfk.AbstractTraining.MIN_NUMBER} - {@link mfk.AbstractTraining.MAX_NUMBER}, 
+	 * количество действия по которым меньше необходимого (см. {@link mfk.AbstractTraining.getMaxActionCount(Integer)})<br/> 
+	 * Отобранный список перемешивается случайным образом.
 	 * 
-	 * @return
+	 * @return список чисел
 	 */
 	public List<Integer> getNextBatch() {
 		Set<Integer> batch = new HashSet<Integer>();
@@ -175,54 +174,13 @@ public abstract class AbstractTraining {
 		maxActionCountMap.remove(number);
 	}
 	
-	/*Следующие три метода (статистика) вынести в отдельный класс*/
-	
-	@SuppressWarnings("unused")
-	public String printProgressStatGraph() {
-		StringBuilder sb = new StringBuilder();
-		for (Entry<Integer, Set<Action>> entry: progressMap.entrySet()) {
-			Set<Action> actionSet = entry.getValue();
-			sb.append(entry.getKey()).append(":");
-			for (Action a: actionSet) {
-				sb.append("-");
-			}
-			sb.append("(").append(actionSet.size()).append(")");
-			sb.append("\n");
-		}
-		return sb.toString();
-	}
-	
-	public Integer getProgressPercentage() {
-		Float total = 0f;
-		for (Integer i=MIN_NUMBER; i<=MAX_NUMBER; i++) {
-			Set<Action> actionSet = progressMap.get(i);
-			if (actionSet==null) {
-				actionSet = Collections.<Action>emptySet();
-			}
-			Integer count = Math.min(VIEW_COUNT, actionSet.size());
-			Float numberWeight = Float.valueOf(count)/VIEW_COUNT;
-			total = total + numberWeight;
-		}
-		return total.intValue();
-	}
-	
-	public String printProgressStat() {
-		StringBuilder sb = new StringBuilder();
-		for (Entry<Integer, Set<Action>> entry: progressMap.entrySet()) {
-			sb.append("\n");
-			sb.append(entry.getKey()).append(": [");
-			for (Action a: entry.getValue()) {
-				sb.append(a.getActionDate()).append("-").append(a.getActionType().name()).append(";");
-			}
-			sb.append("]");
-		}
-		return sb.toString();
-	}
-
-	
 	/**/
 	@Override
 	public String toString() {
 		return "Тренировка{" + name + "}";
+	}
+	
+	public Map<Integer, Set<Action>> getProgressMap() {
+		return new TreeMap<Integer, Set<Action>>(this.progressMap);
 	}
 }

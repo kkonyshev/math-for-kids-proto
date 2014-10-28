@@ -42,7 +42,7 @@ public class ProfileBatchTest {
 					trainting.setMaxActionCount(4, 10);
 				}
 			}
-			System.out.println(trainting.printProgressStatGraph());
+			System.out.println(TrainingStatisticHelper.printProgressStatGraph(trainting));
 		}
 	}
 }
