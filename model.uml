@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_VEKIoGCuEeSLA_C432-OYQ" name="model">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_VGcnoGCuEeSLA_C432-OYQ" name="Activity1" node="_to-3YGCwEeSLA_C432-OYQ _CFdioGCxEeSLA_C432-OYQ _FckoYGCxEeSLA_C432-OYQ _IRqmMGCxEeSLA_C432-OYQ _N572QGCxEeSLA_C432-OYQ">
+    <edge xmi:type="uml:ControlFlow" xmi:id="_T2iXkGCxEeSLA_C432-OYQ" name="ControlFlow" source="_CFdioGCxEeSLA_C432-OYQ" target="_N572QGCxEeSLA_C432-OYQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_W16SwGCxEeSLA_C432-OYQ" name="ControlFlow1" source="_N572QGCxEeSLA_C432-OYQ" target="_FckoYGCxEeSLA_C432-OYQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_YK8MAGCxEeSLA_C432-OYQ" name="ControlFlow2" source="_N572QGCxEeSLA_C432-OYQ" target="_IRqmMGCxEeSLA_C432-OYQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_bJlucGCxEeSLA_C432-OYQ" name="ControlFlow3" source="_to-3YGCwEeSLA_C432-OYQ" target="_CFdioGCxEeSLA_C432-OYQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_usYYoGCxEeSLA_C432-OYQ" name="ControlFlow4" source="_FckoYGCxEeSLA_C432-OYQ" target="_N572QGCxEeSLA_C432-OYQ"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_to-3YGCwEeSLA_C432-OYQ" name="InitialNode" outgoing="_bJlucGCxEeSLA_C432-OYQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_CFdioGCxEeSLA_C432-OYQ" name="Пользователь запуская программу" outgoing="_T2iXkGCxEeSLA_C432-OYQ" incoming="_bJlucGCxEeSLA_C432-OYQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_FckoYGCxEeSLA_C432-OYQ" name="Создает профиль" outgoing="_usYYoGCxEeSLA_C432-OYQ" incoming="_W16SwGCxEeSLA_C432-OYQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_IRqmMGCxEeSLA_C432-OYQ" name="Выбирает существующий профиль" incoming="_YK8MAGCxEeSLA_C432-OYQ"/>
+    <node xmi:type="uml:DecisionNode" xmi:id="_N572QGCxEeSLA_C432-OYQ" name="DecisionNode" outgoing="_W16SwGCxEeSLA_C432-OYQ _YK8MAGCxEeSLA_C432-OYQ" incoming="_T2iXkGCxEeSLA_C432-OYQ _usYYoGCxEeSLA_C432-OYQ"/>
+  </packagedElement>
+</uml:Model>

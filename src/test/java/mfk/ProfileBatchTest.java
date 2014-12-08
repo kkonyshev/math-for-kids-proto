@@ -23,7 +23,7 @@ public class ProfileBatchTest {
 	@Test
 	public void testGetBatch() {
 		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);
-		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+		for (AbstractTraining<?> trainting: leoProfile.getTrainingList()) {
 			List<Integer> nextBatch = trainting.getNextBatch();
 			System.out.println(trainting.getName() + ". Набор чисел для следующего обучения: " + nextBatch);
 			Assert.assertEquals("Ожидается набор для просмотра по умолчанию: " + AbstractTraining.SUGGESTTED_STEP, AbstractTraining.SUGGESTTED_STEP.intValue(), nextBatch.size());
@@ -33,7 +33,7 @@ public class ProfileBatchTest {
 	@Test
 	public void testRun() throws InterruptedException {
 		ProfileImpl leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);
-		for (AbstractTraining trainting: leoProfile.getTrainingList()) {
+		for (AbstractTraining<?> trainting: leoProfile.getTrainingList()) {
 			for (int c=0;c<10;c++) {
 				Thread t = new TrainingRunnerImpl(trainting);
 				t.start();

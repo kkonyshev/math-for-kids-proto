@@ -26,13 +26,13 @@ public class ProfileImpl {
 	/**
 	 * 
 	 */
-	private Set<AbstractTraining> trainingList = new HashSet<AbstractTraining>();
+	private Set<AbstractTraining<?>> trainingList = new HashSet<AbstractTraining<?>>();
 
 	public String getName() {
 		return name;
 	}
 
-	public Set<? extends AbstractTraining> getTrainingList() {
+	public Set<? extends AbstractTraining<?>> getTrainingList() {
 		return trainingList;
 	}
 
@@ -44,11 +44,11 @@ public class ProfileImpl {
 		this.birthDate = birthDate;
 	}
 
-	public void setTrainingList(Set<AbstractTraining> trainingList) {
+	public void setTrainingList(Set<AbstractTraining<?>> trainingList) {
 		this.trainingList = trainingList;
 	}
 	
-	public <T extends AbstractTraining> void addTraining(T training) {
+	public <T extends AbstractTraining<?>> void addTraining(T training) {
 		trainingList.add(training);
 	}
 	

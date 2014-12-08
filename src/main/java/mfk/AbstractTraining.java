@@ -15,7 +15,7 @@ import java.util.TreeMap;
  * @author kkonyshev
  *
  */
-public abstract class AbstractTraining {
+public abstract class AbstractTraining<Context> {
 	
 	/**
 	 * Минимальное число для изучения
@@ -40,20 +40,20 @@ public abstract class AbstractTraining {
 	 * Имя тренировки
 	 */
 	
-	private String name;
+	protected String name;
 	
 	/**
 	 * Иконка
 	 * TODO
 	 */
-	public Object picture;
+	protected Object picture;
 	
 	/**
 	 * Карта описывающая процесс прохоздения тренировки.<br/>
 	 * Содержит инфомрацию об уже изученных или изучаемых цифрах.<br/>
 	 * Цифра -> набор действий (см. {@link mfk.Action})
 	 */
-	private Map<Integer, Set<Action>> progressMap = new TreeMap<Integer, Set<Action>>();
+	private Map<Context, Set<Action>> progressMap = new TreeMap<Context, Set<Action>>();
 	
 	/**
 	 * Карта исключительных правил.<br/>
@@ -67,6 +67,8 @@ public abstract class AbstractTraining {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	private Context nextContext;
 	
 	/**
 	 * Метод получения последовательности чисел для изучения.<br/>
@@ -88,6 +90,14 @@ public abstract class AbstractTraining {
 		Collections.shuffle(list);
 		return list;
 	}
+	
+	public Boolean hasNext() {
+		return createNextContext()!=null;
+	}
+	
+	
+	
+	protected abstract Context createNextContext();
 	
 	/**
 	 * Проверка: необходимо ли добавлять число в список для последовательности обучения.
@@ -112,10 +122,22 @@ public abstract class AbstractTraining {
 	 * @param number -- 
 	 * @throws IllegalArgumentException -- 
 	 */
-	protected void checkRange(Integer number) {
-		if (number==null || number < MIN_NUMBER || number > MAX_NUMBER) {
-			throw new IllegalArgumentException(name);
+	abstract void checkRange(Context number);
+	
+	public void process() {
+		Context number = createNextContext();
+		checkRange(nextContext);
+		process(number);
+	}
+	
+	abstract protected void process(Context number);
+	
+	public void process(Context number, ActionType actionType) {
+		checkRange(number);
+		switch (actionType) {
+			case View: System.out.println("Отображаем число: " + number);
 		}
+		updateProgressItem(number, actionType);
 	}
 	
 	/**
@@ -124,7 +146,7 @@ public abstract class AbstractTraining {
 	 * @param number -- число по которому обновляется статистика
 	 * @param actionType -- действие (см. {@link mfk.ActionType})
 	 */
-	public void updateProgressItem(Integer number, ActionType actionType) {
+	protected void updateProgressItem(Context number, ActionType actionType) {
 		checkRange(number);
 		Set<Action> item = progressMap.get(number);
 		if (item==null) {
@@ -140,7 +162,7 @@ public abstract class AbstractTraining {
 	 * @param number
 	 * @return
 	 */
-	public Set<Action> getProgressFor(Integer number) {
+	public Set<Action> getProgressFor(Context number) {
 		checkRange(number);
 		Set<Action> item = progressMap.get(number);
 		if (item==null) {
@@ -180,7 +202,7 @@ public abstract class AbstractTraining {
 		return "Тренировка{" + name + "}";
 	}
 	
-	public Map<Integer, Set<Action>> getProgressMap() {
-		return new TreeMap<Integer, Set<Action>>(this.progressMap);
+	public Map<Context, Set<Action>> getProgressMap() {
+		return new TreeMap<Context, Set<Action>>(this.progressMap);
 	}
 }

@@ -13,10 +13,10 @@ import java.util.Set;
 public class TrainingStatisticHelper {
 
 	@SuppressWarnings("unused")
-	public static <T extends AbstractTraining> String printProgressStatGraph(T training) {
+	public static <T extends AbstractTraining<?>> String printProgressStatGraph(T training) {
 		
 		StringBuilder sb = new StringBuilder();
-		for (Entry<Integer, Set<Action>> entry: training.getProgressMap().entrySet()) {
+		for (Entry<?, Set<Action>> entry: training.getProgressMap().entrySet()) {
 			Set<Action> actionSet = entry.getValue();
 			sb.append(entry.getKey()).append(":");
 			for (Action a: actionSet) {
@@ -28,7 +28,7 @@ public class TrainingStatisticHelper {
 		return sb.toString();
 	}
 	
-	public static <T extends AbstractTraining> Integer getProgressPercentage(T training) {
+	public static <T extends AbstractTraining<?>> Integer getProgressPercentage(T training) {
 		Float total = 0f;
 		for (Integer i=AbstractTraining.MIN_NUMBER; i<=AbstractTraining.MAX_NUMBER; i++) {
 			Set<Action> actionSet = training.getProgressMap().get(i);
@@ -42,9 +42,9 @@ public class TrainingStatisticHelper {
 		return total.intValue();
 	}
 	
-	public static <T extends AbstractTraining> String printProgressStat(T training) {
+	public static <T extends AbstractTraining<?>> String printProgressStat(T training) {
 		StringBuilder sb = new StringBuilder();
-		for (Entry<Integer, Set<Action>> entry: training.getProgressMap().entrySet()) {
+		for (Entry<?, Set<Action>> entry: training.getProgressMap().entrySet()) {
 			sb.append("\n");
 			sb.append(entry.getKey()).append(": [");
 			for (Action a: entry.getValue()) {
