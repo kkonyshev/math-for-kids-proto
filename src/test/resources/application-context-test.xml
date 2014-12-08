@@ -13,26 +13,12 @@
 		<constructor-arg value="yyyy-MM-dd" />
 	</bean>
 	
-	<bean id="amountLeoMock" class="mfk.TrainingAmountsImpl" scope="prototype">
-		<property name="name" value="Изучения количеств"/>
-	</bean>
-	
-	<bean id="numbersLeoMock" class="mfk.TrainingNumbersImpl" scope="prototype">
-		<property name="name" value="Изучения чисел"/>
-	</bean>
-	
 	<bean id="leoProfile" class="mfk.ProfileImpl" scope="prototype">
 		<property name="name" value="Konyshev Leo"/>
 		<property name="birthDate">
-		<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="2013-01-30"/>
-		</bean>
-		</property>
-		<property name="trainingList">
-			<list>
-				<ref bean="amountLeoMock"/>
-				<!-- <ref bean="numbersLeoMock"/> -->
-			</list>
+			<bean factory-bean="dateFormat" factory-method="parse">
+					<constructor-arg value="2013-01-30"/>
+			</bean>
 		</property>
 	</bean>
 

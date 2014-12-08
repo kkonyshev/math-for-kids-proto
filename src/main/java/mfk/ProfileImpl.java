@@ -3,8 +3,6 @@ package mfk;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Профиль обучающегося
@@ -22,18 +20,9 @@ public class ProfileImpl {
 	 * Дата рождения обучающегося
 	 */
 	private Date birthDate;
-	
-	/**
-	 * 
-	 */
-	private Set<AbstractTraining<?>> trainingList = new HashSet<AbstractTraining<?>>();
 
 	public String getName() {
 		return name;
-	}
-
-	public Set<? extends AbstractTraining<?>> getTrainingList() {
-		return trainingList;
 	}
 
 	public void setName(String name) {
@@ -44,14 +33,6 @@ public class ProfileImpl {
 		this.birthDate = birthDate;
 	}
 
-	public void setTrainingList(Set<AbstractTraining<?>> trainingList) {
-		this.trainingList = trainingList;
-	}
-	
-	public <T extends AbstractTraining<?>> void addTraining(T training) {
-		trainingList.add(training);
-	}
-	
 	public Integer getTotalYear() {
 		return getCalendarFieldDiff(Calendar.YEAR);
 	}
@@ -79,6 +60,6 @@ public class ProfileImpl {
 	
 	@Override
 	public String toString() {
-		return "[" + name + "][" + parceDate(this.birthDate) + "]" + trainingList;
+		return "[" + name + "][" + parceDate(this.birthDate) + "]";
 	}
 }
