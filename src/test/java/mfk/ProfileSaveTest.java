@@ -1,6 +1,7 @@
 package mfk;
 
-import mfk.service.ProfileService;
+import mfk.api.Profile;
+import mfk.api.ProfileService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,7 @@ public class ProfileSaveTest {
 	
 	@Test
 	public void testSave() {
-		ProfileImpl profile = profileService.findByName(Utils.LEO_PROFILE_NAME);
+		Profile profile = profileService.findByName(Utils.LEO_PROFILE_NAME);
 		String newName = "Leo Konyshev";
 		profile.setName(newName);
 		profileService.save(profile);

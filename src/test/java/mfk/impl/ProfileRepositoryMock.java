@@ -1,10 +1,10 @@
-package mfk.service.impl;
+package mfk.impl;
 
 import java.util.Collections;
 import java.util.List;
 
-import mfk.ProfileImpl;
-import mfk.service.ProfileRepository;
+import mfk.api.Profile;
+import mfk.api.ProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
 public class ProfileRepositoryMock implements ProfileRepository {
 
 	@Autowired
-	private ProfileImpl leoProfile;
+	private Profile leoProfile;
 	
 	@Override
-	public ProfileImpl find(String profileName) {
+	public Profile find(String profileName) {
 		if (leoProfile!=null && profileName.equalsIgnoreCase(leoProfile.getName())) {
 			return leoProfile;
 		} else {
@@ -25,8 +25,8 @@ public class ProfileRepositoryMock implements ProfileRepository {
 	}
 
 	@Override
-	public List<ProfileImpl> listAll() {
-		return leoProfile!=null ? Collections.singletonList(leoProfile) : Collections.<ProfileImpl>emptyList();
+	public List<Profile> listAll() {
+		return leoProfile!=null ? Collections.singletonList(leoProfile) : Collections.<Profile>emptyList();
 	}
 
 	@Override
@@ -35,13 +35,13 @@ public class ProfileRepositoryMock implements ProfileRepository {
 	}
 
 	@Override
-	public void save(ProfileImpl profile) {
+	public void save(Profile profile) {
 		find(profile.getName());
 		leoProfile = profile;
 	}
 
 	@Override
-	public void remove(ProfileImpl profile) {
+	public void remove(Profile profile) {
 		find(profile.getName());
 		leoProfile = null;
 	}
