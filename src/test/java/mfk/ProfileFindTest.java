@@ -1,7 +1,7 @@
 package mfk;
 
-import mfk.api.Profile;
-import mfk.api.ProfileService;
+import mfk.domain.Profile;
+import mfk.domain.ProfileService;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,21 +21,21 @@ public class ProfileFindTest {
 	
 	@Test(expected=RuntimeException.class)
 	public void testNotFound() {
-		profileService.findByName("111");
+		profileService.findProfileByName("111");
 	}
 	
 	@Test
 	public void testFind() {
-		Profile leoProfile = profileService.findByName(Utils.LEO_PROFILE_NAME);
-		Utils.TESTS.debug("Profile info: " + leoProfile);
-		Utils.TESTS.debug("Total  year(s) from birth day: " + leoProfile.getTotalYear());
-		Utils.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
-		profileService.listAll();
+		Profile leoProfile = (Profile) profileService.findProfileByName(BaseTest.LEO_PROFILE_NAME);
+		BaseTest.TESTS.debug("Profile info: " + leoProfile);
+		BaseTest.TESTS.debug("Total  year(s) from birth day: " + leoProfile.getTotalYear());
+		BaseTest.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
+		profileService.getProfileList();
 	}
 	
 	
 	@Test
 	public void testSize() {
-		Assert.assertEquals("Ожидается один профиль", Integer.valueOf(1), profileService.size());
+		Assert.assertEquals("Ожидается один профиль", Integer.valueOf(1), profileService.profileCount());
 	}
 }

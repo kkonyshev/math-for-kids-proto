@@ -1,10 +1,10 @@
-package mfk.impl;
+package mfk.domain;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import mfk.api.Profile;
+import java.util.List;
 
 /**
  * Профиль обучающегося
@@ -12,11 +12,22 @@ import mfk.api.Profile;
  * @author kkonyshev
  *
  */
-public class ProfileImpl implements Profile {
+public class Profile implements IProfile, Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8604934837020528661L;
+
 	/*
 	 * 
 	 */
 	private final static String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
+	
+	/**
+	 * Идентификатор
+	 */
+	private Long id;
 	
 	/**
 	 * Имя профиля
@@ -28,7 +39,19 @@ public class ProfileImpl implements Profile {
 	 */
 	private Date birthDate;
 
-	@Override
+	/**
+	 * Статистика просмотра цифр
+	 */
+	private List<NumberStat> numberCount;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -37,16 +60,22 @@ public class ProfileImpl implements Profile {
 		this.name = name;
 	}
 
+	public List<NumberStat> getNumberCount() {
+		return numberCount;
+	}
+
+	public void setNumberCount(List<NumberStat> numberCount) {
+		this.numberCount = numberCount;
+	}
+
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
-	@Override
 	public Integer getTotalYear() {
 		return getCalendarFieldDiff(Calendar.YEAR);
 	}
 	
-	@Override
 	public Integer getTotalMonth() {
 		return getCalendarFieldDiff(Calendar.MONTH);
 	}

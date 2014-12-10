@@ -3,20 +3,20 @@ package mfk.impl;
 import java.util.Collections;
 import java.util.List;
 
-import mfk.api.Profile;
-import mfk.api.ProfileRepository;
+import mfk.domain.IProfile;
+import mfk.domain.ProfileDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProfileRepositoryMock implements ProfileRepository {
+public class ProfileDaoMock implements ProfileDao {
 
 	@Autowired
-	private Profile leoProfile;
+	private IProfile leoProfile;
 	
 	@Override
-	public Profile find(String profileName) {
+	public IProfile find(String profileName) {
 		if (leoProfile!=null && profileName.equalsIgnoreCase(leoProfile.getName())) {
 			return leoProfile;
 		} else {
@@ -25,8 +25,8 @@ public class ProfileRepositoryMock implements ProfileRepository {
 	}
 
 	@Override
-	public List<Profile> listAll() {
-		return leoProfile!=null ? Collections.singletonList(leoProfile) : Collections.<Profile>emptyList();
+	public List<IProfile> listAll() {
+		return leoProfile!=null ? Collections.singletonList(leoProfile) : Collections.<IProfile>emptyList();
 	}
 
 	@Override
@@ -35,13 +35,13 @@ public class ProfileRepositoryMock implements ProfileRepository {
 	}
 
 	@Override
-	public void save(Profile profile) {
+	public void save(IProfile profile) {
 		find(profile.getName());
 		leoProfile = profile;
 	}
 
 	@Override
-	public void remove(Profile profile) {
+	public void remove(IProfile profile) {
 		find(profile.getName());
 		leoProfile = null;
 	}
