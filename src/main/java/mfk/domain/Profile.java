@@ -12,7 +12,11 @@ import java.util.List;
  * @author kkonyshev
  *
  */
-public class Profile implements IProfile, Serializable {
+public class Profile implements Serializable {
+	
+	public static final Integer DEFAUL_MIN_NUMBER = 0;
+	public static final Integer DEFAUL_MAX_NUMBER = 100;
+	public static final Integer DEFAUL_VIEW_COUNT = 5;
 	
 	/**
 	 * 
@@ -68,6 +72,10 @@ public class Profile implements IProfile, Serializable {
 		this.numberCount = numberCount;
 	}
 
+	public Date getBirthDate() {
+		return this.birthDate;
+	}
+	
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}

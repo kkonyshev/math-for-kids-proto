@@ -9,9 +9,9 @@ import java.util.List;
  *
  */
 public interface ProfileDao {
-	IProfile find(String profileName);
-	List<IProfile> listAll();
+	Profile find(String profileName);
+	List<Profile> listAll();
 	Integer size();
-	void save(IProfile profile);
-	void remove(IProfile profile);
+	void save(Profile profile);
+	void remove(Profile profile);
 }

@@ -1,5 +1,6 @@
-package mfk.impl;
+package mfk.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -7,14 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import mfk.domain.NumberStat;
-import mfk.domain.NumberStatDao;
-
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+@Component
 @Repository
-public class NumberStatDaoMock implements NumberStatDao {
-
+public class NumberStatDaoMock implements NumberStatDao, Serializable {
+	private static final long serialVersionUID = 2005638416170769606L;
+	
 	private Set<NumberStat> numberStatList = new HashSet<NumberStat>();
 	
 	@Override

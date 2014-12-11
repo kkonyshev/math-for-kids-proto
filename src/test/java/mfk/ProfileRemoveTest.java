@@ -1,6 +1,6 @@
 package mfk;
 
-import mfk.domain.IProfile;
+import mfk.domain.Profile;
 import mfk.domain.ProfileService;
 
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class ProfileRemoveTest {
 	
 	@Test(expected=RuntimeException.class)
 	public void testRemove() {
-		IProfile profile = profileService.findProfileByName(BaseTest.LEO_PROFILE_NAME);
+		Profile profile = profileService.findProfileByName(BaseTest.LEO_PROFILE_NAME);
 		profileService.remove(profile);
 		profileService.findProfileByName(BaseTest.LEO_PROFILE_NAME);
 	}

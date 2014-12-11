@@ -27,8 +27,14 @@
 		</property>
 	</bean>
 
-	<bean id="mockProfileDao" class="mfk.impl.ProfileDaoMock" scope="prototype"/>
-	<bean id="mockNumberStatDao" class="mfk.impl.NumberStatDaoMock" scope="prototype"/>
+	<bean id="mockProfileDao" class="mfk.domain.ProfileDaoMock" scope="prototype">
+		<property name="profileSet">
+			<set>
+				<ref bean="leoProfile"/>
+			</set>
+		</property>
+	</bean>
+	<bean id="mockNumberStatDao" class="mfk.domain.NumberStatDaoMock" scope="prototype"/>
 	
 	<bean id="mockProfileService" class="mfk.domain.ProfileServiceImpl" scope="prototype">
 		<property name="profileDao">

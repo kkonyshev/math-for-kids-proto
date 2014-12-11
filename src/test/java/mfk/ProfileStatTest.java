@@ -2,7 +2,6 @@ package mfk;
 
 import java.util.List;
 
-import mfk.domain.IProfile;
 import mfk.domain.NumberStat;
 import mfk.domain.Profile;
 import mfk.domain.ProfileService;
@@ -34,7 +33,7 @@ public class ProfileStatTest {
 		NumberStat numberStat = new NumberStat();
 		numberStat.setProfileId(profileId);
 		numberStat.setNumber(1);
-		numberStat.setCount(IProfile.DEFAUL_VIEW_COUNT);
+		numberStat.setCount(Profile.DEFAUL_VIEW_COUNT);
 		profileService.setNumberStat(numberStat);
 		
 		List<Integer> learnedListOne = profileService.getLearnedNumber(leoProfile);

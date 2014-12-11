@@ -9,15 +9,16 @@ import java.util.List;
  */
 public interface ProfileService {
 	
-	IProfile findProfileByName(String profileName);
-	List<IProfile> getProfileList();
+	Profile findProfileByName(String profileName);
+	List<Profile> getProfileList();
 	Integer profileCount();
-	void save(IProfile profile);
-	void remove(IProfile profile);
+	void save(Profile profile);
+	void remove(Profile profile);
 
-	void setNumberStat(IProfile profile, Integer number, Integer count);
+	void setNumberStat(Profile profile, Integer number, Integer count);
 	void setNumberStat(NumberStat numberStat);
 	
-	List<NumberStat> getNumberStat(IProfile profile);
-	List<Integer> getLearnedNumber(IProfile profile);
+	List<NumberStat> getNumberStat(Profile profile);
+	List<Integer> getLearnedNumber(Profile profile);
+	List<Integer> getNextBatchToLearn(Profile profile);
 }
