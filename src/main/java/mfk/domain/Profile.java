@@ -29,17 +29,17 @@ public class Profile implements Serializable {
 	private final static String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
 	
 	/**
-	 * Идентификатор
+	 * 
 	 */
 	private Long id;
 	
 	/**
-	 * Имя профиля
+	 * 
 	 */
 	private String name;
 	
 	/**
-	 * Дата рождения обучающегося
+	 * 
 	 */
 	private Date birthDate;
 	
