@@ -2,8 +2,9 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 
 jar {
-    baseName = 'math-for-kids'
-    version =  '0.0.1-SNAPSHOT'
+    group = 'mfk'
+    baseName = 'math-for-kids-proto'
+    version =  '0.0.2-SNAPSHOT'
 }
 
 jacoco {
