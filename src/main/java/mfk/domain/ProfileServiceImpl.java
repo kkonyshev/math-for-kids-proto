@@ -2,7 +2,10 @@ package mfk.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +33,7 @@ public class ProfileServiceImpl implements ProfileService, Serializable {
 	public Profile findProfileByName(String profileName) {
 		return profileDao.find(profileName);
 	}
-	
+
 	@Override
 	public List<Profile> getProfileList() {
 		return profileDao.listAll();
@@ -43,7 +46,6 @@ public class ProfileServiceImpl implements ProfileService, Serializable {
 	
 	@Override
 	public void save(Profile profile) {
-		numberStatDao.updateStatList(profile.getNumberCount());
 		profileDao.save(profile);
 	}
 	
@@ -86,13 +88,37 @@ public class ProfileServiceImpl implements ProfileService, Serializable {
 
 	@Override
 	public List<Integer> getNextBatchToLearn(Profile profile) {
+		List<Integer> batch = new ArrayList<Integer>();
 		List<NumberStat> statList = numberStatDao.getNumberStat(profile.getId());
+		Map<Integer, Integer> viewMap = new HashMap<Integer, Integer>();
 		for (NumberStat statItem: statList) {
-			
+			viewMap.put(statItem.getNumber(), statItem.getCount());
 		}
-		return null;
+		for (Integer i=Profile.DEFAUL_MIN_NUMBER; i<=Profile.DEFAUL_MAX_NUMBER; i++) {
+			Integer count = viewMap.get(i);
+			if (count==null || count.compareTo(Profile.DEFAUL_VIEW_COUNT)<0) {
+				batch.add(i);
+			}
+			if (Integer.valueOf(batch.size())>=Profile.DEFAUL_BATCH_NUMBER) {
+				break;
+			}
+		}
+		return batch;
 	}
 
+	@Override
+	public void setNumberStat(Collection<NumberStat> numberStatCollection) {
+		numberStatDao.updateStatList(numberStatCollection);
+	}
+
+	@Override
+	public void increaseNumberStat(Profile profile, Integer number) {
+		Long profileId = profile.getId();
+		NumberStat stat = numberStatDao.getNumberStat(profileId, number);
+		stat.setCount(stat.getCount()+1);
+		numberStatDao.updateStat(stat);
+	}
+	
 	/*
 	 * 
 	 */
@@ -104,4 +130,6 @@ public class ProfileServiceImpl implements ProfileService, Serializable {
 	public void setNumberStatDao(NumberStatDao numberStatDao) {
 		this.numberStatDao = numberStatDao;
 	}
+
+
 }

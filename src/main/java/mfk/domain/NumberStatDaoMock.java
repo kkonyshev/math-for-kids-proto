@@ -20,7 +20,18 @@ public class NumberStatDaoMock implements NumberStatDao, Serializable {
 	
 	@Override
 	public void updateStat(NumberStat stat) {
-		numberStatList.add(stat);
+		Iterator<NumberStat> it = numberStatList.iterator();
+		if (numberStatList.contains(stat)) {			
+			while (it.hasNext()) {
+				NumberStat ex = it.next();
+				if (ex.equals(stat)) {
+					ex.setCount(stat.getCount());
+					break;
+				}
+			}
+		} else {
+			numberStatList.add(stat);
+		}
 	}
 
 	@Override
@@ -53,16 +64,23 @@ public class NumberStatDaoMock implements NumberStatDao, Serializable {
 	}
 
 	@Override
-	public List<NumberStat> getNumberStat(Long profileId, Integer number) {
+	public NumberStat getNumberStat(Long profileId, Integer number) {
 		Iterator<NumberStat> iterator = numberStatList.iterator();
-		List<NumberStat> res = new ArrayList<NumberStat>();
 		while (iterator.hasNext()) {
 			NumberStat stat = iterator.next();
 			if (stat.getProfileId().equals(profileId) && stat.getNumber().equals(number)) {
-				res.add(stat);
+				return stat;
 			}
 		}
-		return res;
+		return getInitialStat(profileId, number);
+	}
+
+	private NumberStat getInitialStat(Long profileId, Integer number) {
+		NumberStat empty = new NumberStat();
+		empty.setProfileId(profileId);
+		empty.setNumber(number);
+		empty.setCount(0);
+		return empty;
 	}
 
 	@Override
@@ -78,5 +96,12 @@ public class NumberStatDaoMock implements NumberStatDao, Serializable {
 		return res;
 	}
 
+	/*
+	 * 
+	 */
+
+	public void setNumberStatList(Set<NumberStat> numberStatList) {
+		this.numberStatList = numberStatList;
+	}
 
 }

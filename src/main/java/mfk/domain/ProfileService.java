@@ -1,5 +1,6 @@
 package mfk.domain;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ public interface ProfileService {
 
 	void setNumberStat(Profile profile, Integer number, Integer count);
 	void setNumberStat(NumberStat numberStat);
+	void setNumberStat(Collection<NumberStat> numberStatCollection);
+	void increaseNumberStat(Profile profile, Integer number);
 	
 	List<NumberStat> getNumberStat(Profile profile);
 	List<Integer> getLearnedNumber(Profile profile);

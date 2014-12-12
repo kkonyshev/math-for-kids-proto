@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Профиль обучающегося
@@ -17,6 +16,7 @@ public class Profile implements Serializable {
 	public static final Integer DEFAUL_MIN_NUMBER = 0;
 	public static final Integer DEFAUL_MAX_NUMBER = 100;
 	public static final Integer DEFAUL_VIEW_COUNT = 5;
+	public static final Integer DEFAUL_BATCH_NUMBER = 5;
 	
 	/**
 	 * 
@@ -42,11 +42,6 @@ public class Profile implements Serializable {
 	 * Дата рождения обучающегося
 	 */
 	private Date birthDate;
-
-	/**
-	 * Статистика просмотра цифр
-	 */
-	private List<NumberStat> numberCount;
 	
 	public Long getId() {
 		return id;
@@ -62,14 +57,6 @@ public class Profile implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<NumberStat> getNumberCount() {
-		return numberCount;
-	}
-
-	public void setNumberCount(List<NumberStat> numberCount) {
-		this.numberCount = numberCount;
 	}
 
 	public Date getBirthDate() {

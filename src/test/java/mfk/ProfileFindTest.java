@@ -28,11 +28,11 @@ public class ProfileFindTest {
 	public void testFind() {
 		Profile leoProfile = (Profile) profileService.findProfileByName(BaseTest.LEO_PROFILE_NAME);
 		BaseTest.TESTS.debug("Profile info: " + leoProfile);
+		BaseTest.TESTS.debug("Birth Date: " + leoProfile.getBirthDate());
 		BaseTest.TESTS.debug("Total  year(s) from birth day: " + leoProfile.getTotalYear());
 		BaseTest.TESTS.debug("Total month(s) from birth day: " + leoProfile.getTotalMonth());
 		profileService.getProfileList();
 	}
-	
 	
 	@Test
 	public void testSize() {

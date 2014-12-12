@@ -13,12 +13,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProfileDaoMock implements ProfileDao, Serializable {
 	private static final long serialVersionUID = -426482358891148908L;
-	
+
 	private Set<Profile> profileSet = new HashSet<Profile>();
-	
-	//@Autowired
-	//private Profile leoProfile;
-	
+
 	@Override
 	public Profile find(String profileName) {
 		for (Profile profile: profileSet) {
@@ -26,7 +23,7 @@ public class ProfileDaoMock implements ProfileDao, Serializable {
 				return profile;
 			}
 		}
-		throw new RuntimeException("profile not found by name: " + profileName);
+		throw new ProfileNotFoundException("profile not found by name: " + profileName);
 	}
 
 	@Override

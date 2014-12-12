@@ -8,6 +8,6 @@ public interface NumberStatDao {
 	void updateStatList(Collection<NumberStat> statCollection);
 	void removeStat(Long profileId);
 	List<NumberStat> getNumberStat(Long profileId);
-	List<NumberStat> getNumberStat(Long profileId, Integer number);
+	NumberStat getNumberStat(Long profileId, Integer number);
 	List<NumberStat> getNumberStat(Long profileId, Collection<Integer> numberCollection);
 }
