@@ -6,42 +6,44 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-3.2.xsd">	
-	
+
 	<context:component-scan base-package="mfkd"/><!-- отключаем поиск бинов, иначе падают тесты -->
-	
+
 	<bean id="dateFormat" class="java.text.SimpleDateFormat">
 		<constructor-arg value="yyyy-MM-dd" />
 	</bean>
-	
-	<bean id="amountLeoMock" class="mfk.TrainingAmountsImpl" scope="prototype">
-		<property name="name" value="Изучения количеств"/>
-	</bean>
-	
-	<bean id="numbersLeoMock" class="mfk.TrainingNumbersImpl" scope="prototype">
-		<property name="name" value="Изучения чисел"/>
-	</bean>
-	
-	<bean id="leoProfile" class="mfk.ProfileImpl" scope="prototype">
+
+	<bean id="leoProfile" class="mfk.domain.Profile" scope="prototype">
+		<property name="id" value="1"/>
 		<property name="name" value="Konyshev Leo"/>
 		<property name="birthDate">
-		<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="2013-01-30"/>
-		</bean>
-		</property>
-		<property name="trainingList">
-			<list>
-				<ref bean="amountLeoMock"/>
-				<!-- <ref bean="numbersLeoMock"/> -->
-			</list>
+			<bean factory-bean="dateFormat" factory-method="parse">
+					<constructor-arg value="2013-01-30"/>
+			</bean>
 		</property>
 	</bean>
 
-	<bean id="mockProfileRepository" class="mfk.service.impl.ProfileRepositoryMock" scope="prototype"/>
-	
-	<bean id="mockProfileService" class="mfk.service.impl.ProfileServiceImpl" scope="prototype">
-		<property name="profileRepository">
-			<ref bean="mockProfileRepository"/>
+	<bean id="mockProfileDao" class="mfk.domain.ProfileDaoMock" scope="prototype">
+		<property name="profileSet">
+			<set>
+				<ref bean="leoProfile"/>
+			</set>
 		</property>
-	</bean>	
+	</bean>
+	<bean id="mockNumberStatDao" class="mfk.domain.NumberStatDaoMock" scope="prototype">
+		<property name="numberStatList">
+			<set>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="mockProfileService" class="mfk.domain.ProfileServiceImpl" scope="prototype">
+		<property name="profileDao">
+			<ref bean="mockProfileDao"/>
+		</property>
+		<property name="numberStatDao">
+			<ref bean="mockNumberStatDao"/>
+		</property>
+	</bean>
 
 </beans>

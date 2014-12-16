@@ -1,10 +1,9 @@
-package mfk;
+package mfk.domain;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Профиль обучающегося
@@ -12,46 +11,62 @@ import java.util.Set;
  * @author kkonyshev
  *
  */
-public class ProfileImpl {
-	/**
-	 * Имя профиля
-	 */
-	private String name;
+public class Profile implements Serializable {
 	
-	/**
-	 * Дата рождения обучающегося
-	 */
-	private Date birthDate;
+	public static final Integer DEFAUL_MIN_NUMBER = 0;
+	public static final Integer DEFAUL_MAX_NUMBER = 100;
+	public static final Integer DEFAUL_VIEW_COUNT = 5;
+	public static final Integer DEFAUL_BATCH_NUMBER = 5;
 	
 	/**
 	 * 
 	 */
-	private Set<AbstractTraining<?>> trainingList = new HashSet<AbstractTraining<?>>();
+	private static final long serialVersionUID = 8604934837020528661L;
+
+	/*
+	 * 
+	 */
+	private final static String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
+	
+	/**
+	 * 
+	 */
+	private Long id;
+	
+	/**
+	 * 
+	 */
+	private String name;
+	
+	/**
+	 * 
+	 */
+	private Date birthDate;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
-	}
-
-	public Set<? extends AbstractTraining<?>> getTrainingList() {
-		return trainingList;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public Date getBirthDate() {
+		return this.birthDate;
+	}
+	
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
-	public void setTrainingList(Set<AbstractTraining<?>> trainingList) {
-		this.trainingList = trainingList;
-	}
-	
-	public <T extends AbstractTraining<?>> void addTraining(T training) {
-		trainingList.add(training);
-	}
-	
 	public Integer getTotalYear() {
 		return getCalendarFieldDiff(Calendar.YEAR);
 	}
@@ -67,11 +82,6 @@ public class ProfileImpl {
 		return now.get(field) - birth.get(field);
 	}
 	
-	/*
-	 * 
-	 */
-	private final static String DATE_FORMAT_PATTERN="yyyy-MM-dd";
-	
 	private String parceDate(Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
 		return simpleDateFormat.format(date);
@@ -79,6 +89,6 @@ public class ProfileImpl {
 	
 	@Override
 	public String toString() {
-		return "[" + name + "][" + parceDate(this.birthDate) + "]" + trainingList;
+		return "[" + name + "][" + parceDate(this.birthDate) + "]";
 	}
 }

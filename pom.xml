@@ -4,7 +4,7 @@
 
 	<groupId>kkonyshev</groupId>
 	<artifactId>math-for-kids</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 
 	<properties>
 		<slf4jVersion>1.6.1</slf4jVersion>
@@ -21,6 +21,25 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.6.0.201210061924</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 
@@ -44,6 +63,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring-version}</version>
+		</dependency>
+		
+		<!-- COMMONS -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
 		</dependency>
 		
 		<!-- tests -->
