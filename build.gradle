@@ -1,10 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply plugin: 'maven'
 
 jar {
     group = 'kkonyshev'
     baseName = 'math-for-kids'
     version =  '1.0.0-SNAPSHOT'
+}
+
+allprojects {
+  apply plugin: 'maven'
+  group = 'kkonyshev'
+  version = '1.0.0-SNAPSHOT'
 }
 
 jacoco {
