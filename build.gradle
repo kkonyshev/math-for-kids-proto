@@ -2,9 +2,9 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 
 jar {
-    group = 'mfk'
-    baseName = 'math-for-kids-proto'
-    version =  '0.0.2-SNAPSHOT'
+    group = 'kkonyshev'
+    baseName = 'math-for-kids'
+    version =  '1.0.0-SNAPSHOT'
 }
 
 jacoco {
@@ -25,13 +25,13 @@ repositories {
 }
 
 dependencies {
-    compile 	"org.slf4j:slf4j-api:1.6.1",
-		"org.slf4j:slf4j-log4j12:1.6.1",
-		"org.apache.commons:commons-lang3:3.3.2",
-		"org.springframework:spring-context:3.2.2.RELEASE"
+    compile "org.slf4j:slf4j-api:1.6.1",
+			"org.slf4j:slf4j-log4j12:1.6.1",
+			"org.apache.commons:commons-lang3:3.3.2",
+			"org.springframework:spring-context:3.2.2.RELEASE"
 
     testCompile "junit:junit:4.8.2",
-		"org.springframework:spring-test:3.2.2.RELEASE"
+				"org.springframework:spring-test:3.2.2.RELEASE"
 }
 
 test {
